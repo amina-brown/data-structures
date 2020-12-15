@@ -199,29 +199,7 @@ The query pulls all meetings for the current day, meaning the interface only dis
 This creates the final interface:
 ![aa_meeting](https://github.com/amina-brown/data-structures/blob/master/final-assignments/aa_meetings.PNG)
 
-## Assignment 2 - Temperature Sensor
-
-This project was to connect a particle temperature sensor to a SQL database and present the information on a graph.
-
-The template for this app is saved in a separate file that contains the d3 code to create the graph, and add the current temperature values. The query part is located in the same app.js file as the aa code. 
-This query is designed to pull the data for the last week by averaging each day and looking at the past 7 days. It also pulls the latest temperature entry to fill the current temp element.
-
-     var q = `SELECT 
-                EXTRACT(DOY FROM sensorTime) as sensorday,
-                to_char(sensorTime, 'Day') as weekday,
-                AVG(s.sensorValue) as num_obs,
-                c.sensorValue as currenttemp
-            FROM sensorData s
-                inner join (select sensorValue from sensorData order by sensorTime desc limit 1) c 
-                on 1=1
-             where s.sensorValue between 0 and 100 
-             group by EXTRACT(DOY FROM sensorTime), to_char(sensorTime, 'Day'), c.sensorValue
-             ORDER BY sensorday desc LIMIT 7;`;
-             
- This yields a bar graph with 7 bars (one per day), a hover over function with the avg temp for the day, and the current temp value.
- ![temp](https://github.com/amina-brown/data-structures/blob/master/final-assignments/process_blog.PNG)
- 
- ## Assignment 3 - Process Blog
+## Assignment 2 - Process Blog
  
  This assignment was to create a process blog with the entries stored in a NoSQL database. The chosen content for this application was sailing journal entries that contain date, location, wind, boat,
  notes, and results. 
@@ -254,4 +232,26 @@ This query is designed to pull the data for the last week by averaging each day 
     ?pk=2
     
 The final interface looks like this:
-![process](https://github.com/amina-brown/data-structures/blob/master/final-assignments/temp_sensor.PNG)
+ ![process](https://github.com/amina-brown/data-structures/blob/master/final-assignments/process_blog.PNG)
+ 
+ ## Assignment 3 - Temperature Sensor
+
+This project was to connect a particle temperature sensor to a SQL database and present the information on a graph.
+
+The template for this app is saved in a separate file that contains the d3 code to create the graph, and add the current temperature values. The query part is located in the same app.js file as the aa code. 
+This query is designed to pull the data for the last week by averaging each day and looking at the past 7 days. It also pulls the latest temperature entry to fill the current temp element.
+
+     var q = `SELECT 
+                EXTRACT(DOY FROM sensorTime) as sensorday,
+                to_char(sensorTime, 'Day') as weekday,
+                AVG(s.sensorValue) as num_obs,
+                c.sensorValue as currenttemp
+            FROM sensorData s
+                inner join (select sensorValue from sensorData order by sensorTime desc limit 1) c 
+                on 1=1
+             where s.sensorValue between 0 and 100 
+             group by EXTRACT(DOY FROM sensorTime), to_char(sensorTime, 'Day'), c.sensorValue
+             ORDER BY sensorday desc LIMIT 7;`;
+             
+ This yields a bar graph with 7 bars (one per day), a hover over function with the avg temp for the day, and the current temp value.
+![temp](https://github.com/amina-brown/data-structures/blob/master/final-assignments/temp_sensor.PNG)
